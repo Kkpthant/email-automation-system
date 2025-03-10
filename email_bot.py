@@ -15,7 +15,7 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 EMAIL_RECEIVER = os.getenv('EMAIL_RECEIVER')
 
 if not EMAIL_SENDER or not EMAIL_PASSWORD:
-    raise ValueError("❌ Missing credentials! Ensure .env file is correctly configured.")
+    raise ValueError("Missing credentials! Ensure .env file is correctly configured.")
 
 # Setup logging
 logging.basicConfig(filename='email_activity.log', level=logging.INFO,
@@ -29,7 +29,7 @@ otp = totp.now()
 # Request OTP verification
 user_otp = input(f"Enter the OTP sent to your registered device (Generated OTP: {otp} for testing): ")
 if user_otp != otp:
-    logging.warning("❌ Unauthorized OTP entry attempt!")
+    logging.warning("Unauthorized OTP entry attempt!")
     print("Invalid OTP. Access denied.")
     exit()
 
@@ -88,12 +88,12 @@ try:
         smtp.login(EMAIL_SENDER, EMAIL_PASSWORD)
         smtp.sendmail(EMAIL_SENDER, EMAIL_RECEIVER, em.as_string())
 
-    logging.info("✅ Email successfully sent to %s", EMAIL_RECEIVER)
-    print("✅ Email sent successfully!")
+    logging.info("Email successfully sent to %s", EMAIL_RECEIVER)
+    print("Email sent successfully!")
 
 except smtplib.SMTPAuthenticationError:
-    logging.error("❌ Failed to authenticate with Gmail SMTP. Check credentials.")
+    logging.error("Failed to authenticate with Gmail SMTP. Check credentials.")
     print("Authentication failed. Please check your email credentials.")
 except Exception as e:
-    logging.error("❌ Email sending failed: %s", str(e))
+    logging.error("Email sending failed: %s", str(e))
     print(f"Failed to send email: {e}")
